@@ -1,5 +1,7 @@
 import logging
+
 import watchtower
+import boto3
 from fastapi import (
     status,
     APIRouter,
@@ -10,11 +12,17 @@ from fastapi import (
 from schemas.responses import BaseResponse
 
 
+boto3_logs_client = boto3.client(
+    "logs",
+    region_name="ap-northeast-2"
+)
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 handler = watchtower.CloudWatchLogHandler(
     log_group_name="/audio-debugging-server",
-    log_stream_name="audio"
+    log_stream_name="audio",
+    boto3_client=boto3_logs_client
 )
 logger.addHandler(handler)
 
