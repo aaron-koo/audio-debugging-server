@@ -6,7 +6,8 @@ from fastapi import (
     status,
     APIRouter,
     UploadFile,
-    File
+    File,
+    Form
 )
 
 from schemas.responses import BaseResponse
@@ -39,9 +40,10 @@ router = APIRouter(
     }
 )
 def post_audio(
-    audio: UploadFile = File(...)
+    audio: UploadFile = File(...),
+    seq_num: int = Form(...)
 ):
-    logger.info("successfully received the audio file.")
+    logger.info(f"[SUCCESS] {seq_num}")
     return BaseResponse(
         detail="ok"
     )
