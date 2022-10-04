@@ -31,7 +31,7 @@ router = APIRouter(
     prefix="/audio"
 )
 
-@router.post("/upload",
+@router.post("/upload/{seq_num}",
     status_code=status.HTTP_200_OK,
     responses={
         status.HTTP_200_OK: {
@@ -40,8 +40,8 @@ router = APIRouter(
     }
 )
 def post_audio(
-    audio: UploadFile = File(...),
-    seq_num: int = Form(...)
+    seq_num: int,
+    audio: UploadFile = File(...)
 ):
     logger.info(f"[SUCCESS] {seq_num}")
     return BaseResponse(
